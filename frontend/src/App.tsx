@@ -3,6 +3,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { connectDatabase, executeQuery, postChat } from './api';
 
 function App() {
+  console.log('[frontend] App component rendered');
   return (
     <div style={{ fontFamily: 'sans-serif', padding: 24, maxWidth: 960, margin: '0 auto' }}>
       <header style={{ marginBottom: 24 }}>

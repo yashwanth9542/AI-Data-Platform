@@ -15,12 +15,15 @@ class AgentState(TypedDict):
 
 class LangGraphAgent:
     def __init__(self) -> None:
+        print("[backend] LangGraphAgent initializing")
         self.workflow = self._build_workflow()
+        print("[backend] LangGraphAgent workflow built")
 
     def _build_workflow(self) -> StateGraph:
         def intent_analyzer(state: AgentState) -> AgentState:
             question = state["messages"][-1]["content"] if state["messages"] else ""
             intent = "data_exploration" if "sales" in question.lower() else "general"
+            print(f"[backend] Agent intent_analyzer running for question: {question}")
             return {
                 "messages": state["messages"],
                 "answer": f"Intent detected: {intent}",
@@ -30,6 +33,7 @@ class LangGraphAgent:
 
         def sql_builder(state: AgentState) -> AgentState:
             question = state["messages"][-1]["content"] if state["messages"] else ""
+            print(f"[backend] Agent sql_builder generating SQL for question: {question}")
             sql = f"SELECT * FROM analytics_sample WHERE question LIKE '%{question}%';"
             return {
                 "messages": state["messages"],
@@ -47,6 +51,7 @@ class LangGraphAgent:
         return builder.compile()
 
     def run(self, question: str) -> dict[str, Any]:
+        print(f"[backend] LangGraphAgent.run started for question: {question}")
         initial_state: AgentState = {
             "messages": [{"role": "user", "content": question}],
             "answer": "",
@@ -54,6 +59,7 @@ class LangGraphAgent:
             "provider": "openai",
         }
         result = self.workflow.invoke(initial_state)
+        print(f"[backend] LangGraphAgent.run result: {result}")
         return {
             "answer": result.get("answer", ""),
             "sql": result.get("sql"),
