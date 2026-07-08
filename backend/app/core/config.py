@@ -10,6 +10,9 @@ class Settings:
     gemini_api_key: str | None = os.getenv("GEMINI_API_KEY")
     default_llm_provider: str = os.getenv("DEFAULT_LLM_PROVIDER", "openai")
     default_database: str = os.getenv("DEFAULT_DATABASE", "sqlite")
+    postgres_dsn: str | None = os.getenv("POSTGRES_DSN")
+    mysql_dsn: str | None = os.getenv("MYSQL_DSN")
+    sqlite_path: str = os.getenv("SQLITE_PATH", "./data/analytics.db")
 
 
 settings = Settings()

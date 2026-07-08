@@ -1,10 +1,14 @@
-from app.services.chat_service import ChatService
 from app.agents.langgraph_agent import LangGraphAgent
+from app.repositories.sqlite_chat_history_repository import SQLiteChatHistoryRepository
+from app.services.chat_service import ChatService
+from app.services.connection_service import ConnectorFactory
 
 
 class Container:
     def __init__(self) -> None:
-        self.chat_service = ChatService(agent=LangGraphAgent())
+        self.history_repository = SQLiteChatHistoryRepository()
+        self.connector_factory = ConnectorFactory()
+        self.chat_service = ChatService(agent=LangGraphAgent(), history_repository=self.history_repository)
 
 
 container = Container()

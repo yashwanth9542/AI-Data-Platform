@@ -4,14 +4,18 @@
 AI Data Platform is a starter implementation of an internal analytics copilot. The current version focuses on establishing the project structure and demonstrating a LangGraph-based orchestration flow for a natural-language-to-SQL experience.
 
 ## Current Status
-The repository already contains:
-- a FastAPI backend scaffold
-- a React + Vite frontend scaffold
-- a basic LangGraph workflow
-- provider abstractions for LLMs and databases
+The repository now contains:
+- a FastAPI backend with chat, history, database, and metrics routes
+- a React + Vite frontend with a functional chat UI and database connection/query controls
+- a LangGraph-based workflow that produces an intent and SQL draft
+- configuration-driven LLM provider support for OpenAI and Gemini
+- database connector abstractions for SQLite, PostgreSQL, and MySQL
+- a real MySQL connector path that uses mysql-connector-python when available for connection checks, schema inspection, and query execution
+- SQLite-backed chat history persistence
+- structured logging and centralized error handling
 - Docker and Compose configuration
 
-The implementation is still early-stage and should be treated as a foundation rather than a finished product.
+The implementation is now much closer to the intended architecture, although live execution is still dependent on valid environment configuration and driver availability.
 
 ## Repository Structure
 
@@ -81,12 +85,12 @@ SQL-Agent/
 - LLM and database providers are defined as abstract interfaces with concrete starter implementations.
 
 ### Gaps to address next
-- real persistence for chat history
-- real SQL validation and safety checks
-- real database connectors beyond placeholders
-- actual LLM provider integration
-- structured logging and metrics
-- tests
+- add provider-specific SDK integration tests for OpenAI and Gemini beyond the current HTTP-based approach
+- add real execution against live PostgreSQL and SQLite backends, not just MySQL
+- add authentication and authorization for internal use
+- add API tests and integration tests for provider and connector flows
+- add request correlation IDs and richer metrics collection
+- improve frontend state management and form validation for connection settings
 
 ## Frontend Notes
 ### Current implementation
