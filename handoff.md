@@ -1,21 +1,23 @@
 # Handoff for Next Coding Agent
 
 ## Project Summary
-AI Data Platform is a starter implementation of an internal analytics copilot. The current version focuses on establishing the project structure and demonstrating a LangGraph-based orchestration flow for a natural-language-to-SQL experience.
+AI Data Platform is an internal analytics copilot project that aims to translate natural language questions into safe SQL, execute them against connected databases, and present the results in an enterprise-style interface. The technical goal is to build a modular, extensible system where the backend orchestrates the AI workflow, provider abstractions isolate database and model integrations, and the frontend remains a thin client over a versioned API.
 
-## Current Status
-The repository now contains:
-- a FastAPI backend with chat, history, database, and metrics routes
-- a React + Vite frontend with a functional chat UI and database connection/query controls
-- a LangGraph-based workflow that produces an intent and SQL draft
-- configuration-driven LLM provider support for OpenAI and Gemini
-- database connector abstractions for SQLite, PostgreSQL, and MySQL
-- a real MySQL connector path that uses mysql-connector-python when available for connection checks, schema inspection, and query execution
-- SQLite-backed chat history persistence
-- structured logging and centralized error handling
-- Docker and Compose configuration
+## Current Technical State
+The codebase has progressed from a scaffold into a functional foundation for the target architecture.
 
-The implementation is now much closer to the intended architecture, although live execution is still dependent on valid environment configuration and driver availability.
+What is implemented now:
+- A FastAPI backend with routed endpoints for chat, health, history, database testing, query execution, and metrics.
+- A React + Vite frontend with a working chat form and a database connection/query experience.
+- A LangGraph-inspired orchestration layer that produces an intent-style response and a SQL draft.
+- A provider abstraction layer for LLMs and databases, with configuration-driven setup for OpenAI, Gemini, MySQL, PostgreSQL, and SQLite.
+- SQLite-backed persistence for chat history.
+- Structured logging and centralized exception handling.
+- Docker and Compose scaffolding for local deployment.
+
+Where we are today:
+- The system is no longer a placeholder shell; it has real API routes, a working frontend flow, and initial provider/connector abstractions.
+- The main remaining gap is that execution is still dependent on environment configuration and driver availability, so the system is best described as a robust prototype rather than a fully production-hardened platform.
 
 ## Repository Structure
 
@@ -71,38 +73,36 @@ SQL-Agent/
 
 ## Backend Notes
 ### Current implementation
-- FastAPI app is bootstrapped in [backend/app/main.py](backend/app/main.py)
-- A basic chat endpoint exists at `/api/v1/chat`
-- A health endpoint exists at `/api/v1/health`
-- A LangGraph workflow is implemented in [backend/app/agents/langgraph_agent.py](backend/app/agents/langgraph_agent.py)
-- The workflow currently acts as a simple two-step placeholder:
-  1. intent analysis
-  2. SQL draft generation
+- FastAPI is bootstrapped in [backend/app/main.py](backend/app/main.py) with versioned routes under `/api/v1`.
+- Chat, health, history, database, and metrics endpoints are present.
+- The LangGraph-based workflow is implemented in [backend/app/agents/langgraph_agent.py](backend/app/agents/langgraph_agent.py) and currently performs a lightweight intent-style step followed by a SQL draft.
+- The service layer and provider abstractions are already wired into the app flow.
 
 ### Important implementation details
-- The backend is structured around a service layer and provider abstractions.
-- The app uses dependency injection style via a lightweight container in [backend/app/api/dependencies/container.py](backend/app/api/dependencies/container.py).
-- LLM and database providers are defined as abstract interfaces with concrete starter implementations.
+- The backend follows a layered structure with routes, services, providers, repositories, and core configuration.
+- Dependency injection is represented through a lightweight container in [backend/app/api/dependencies/container.py](backend/app/api/dependencies/container.py).
+- LLM and database providers are expressed as injectable abstractions with concrete implementations.
 
 ### Gaps to address next
-- add provider-specific SDK integration tests for OpenAI and Gemini beyond the current HTTP-based approach
-- add real execution against live PostgreSQL and SQLite backends, not just MySQL
+- add stronger provider-specific testing for OpenAI and Gemini beyond the current HTTP-based approach
+- add robust execution against live PostgreSQL and SQLite backends, not just MySQL
 - add authentication and authorization for internal use
-- add API tests and integration tests for provider and connector flows
+- add API and integration tests for provider and connector flows
 - add request correlation IDs and richer metrics collection
 - improve frontend state management and form validation for connection settings
 
 ## Frontend Notes
 ### Current implementation
-- A minimal Vite + React app exists in [frontend/src/App.tsx](frontend/src/App.tsx)
-- The app includes navigation placeholders for Chat and Connections
-- The UI is still a shell and does not yet communicate with the backend
+- The Vite + React app in [frontend/src/App.tsx](frontend/src/App.tsx) includes:
+  - a chat interface that posts to the backend
+  - a connections screen for testing database connectivity and running queries
+- The frontend is now actively wired to backend endpoints instead of being a static shell.
 
 ### Gaps to address next
-- chat UI wired to the backend API
-- database connection management UI
-- loading/error states
-- styling and component structure
+- improve UX for error states and loading transitions
+- add better form validation for connection settings
+- introduce richer result rendering for tabular query output
+- add a more enterprise-style layout and component structure
 
 ## Environment and Setup
 ### Backend
@@ -129,14 +129,14 @@ docker compose up --build
 
 ## Recommended Next Work
 The highest-value next steps are:
-1. Implement chat history persistence
-2. Add real connection management endpoints and schema inspection
-3. Replace the placeholder LangGraph workflow with a more realistic SQL generation pipeline
-4. Connect the frontend chat UI to the backend API
-5. Add tests for the backend workflow and provider abstractions
+1. Harden the LangGraph workflow into a more realistic SQL-generation pipeline with schema-aware prompt construction.
+2. Add robust execution support for PostgreSQL and SQLite, not just MySQL.
+3. Introduce authentication, authorization, and request correlation for enterprise readiness.
+4. Expand automated test coverage for providers, connectors, routes, and frontend interactions.
+5. Improve the frontend experience with richer analytics visualization and better state management.
 
 ## Notes for the Next Agent
-- This is a foundation project, not a completed product.
+- This is now a functioning foundation rather than a blank scaffold.
 - Prefer improving the architecture rather than patching around incomplete behaviors.
 - Keep new work aligned with the original design goals:
   - modularity
@@ -144,3 +144,4 @@ The highest-value next steps are:
   - testability
   - observability
 - Avoid hardcoding database or LLM provider logic into route handlers.
+- Treat environment configuration and driver availability as first-class runtime dependencies.
