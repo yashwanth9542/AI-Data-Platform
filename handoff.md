@@ -22,7 +22,7 @@ Where we are today:
 ## Repository Structure
 
 ```text
-SQL-Agent/
+AI-DATA-PLATFORM/
 ├── backend/
 │   ├── app/
 │   │   ├── agents/

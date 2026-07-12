@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from app.providers.database.postgres import PostgresConnector
 from app.providers.database.sqlite import SQLiteConnector
@@ -19,6 +20,13 @@ class ProviderTests(unittest.TestCase):
         factory = LLMProviderFactory()
         with self.assertRaises(Exception):
             factory.create("openai")
+
+    def test_llm_provider_factory_supports_grok(self) -> None:
+        factory = LLMProviderFactory()
+        with patch("app.providers.llm.factory.settings") as mock_settings:
+            mock_settings.grok_api_key = "fake-key"
+            provider = factory.create("grok")
+            self.assertEqual(provider.__class__.__name__, "GrokProvider")
 
 
 if __name__ == "__main__":

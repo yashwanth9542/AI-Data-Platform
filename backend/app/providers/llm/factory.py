@@ -1,8 +1,9 @@
 from app.core.config import settings
 from app.core.exceptions import ProviderError
 from app.providers.llm.gemini import GeminiProvider
+from app.providers.llm.grok import GrokProvider
 from app.providers.llm.openai import OpenAIProvider
-
+from app.providers.llm.groq import GroqProvider
 
 class LLMProviderFactory:
     def create(self, provider_name: str | None = None):
@@ -16,4 +17,17 @@ class LLMProviderFactory:
             if not settings.gemini_api_key:
                 raise ProviderError("GEMINI_API_KEY is not configured")
             return GeminiProvider(api_key=settings.gemini_api_key)
+        if provider_key == "grok":
+            if not settings.grok_api_key:
+                raise ProviderError("GROK_API_KEY is not configured")
+            return GrokProvider(api_key=settings.grok_api_key)
+        if provider_key == "groq":
+            if not settings.groq_api_key:
+                raise ProviderError("GROQ_API_KEY is not configured")
+
+            return GroqProvider(
+                api_key=settings.groq_api_key,
+                model=settings.groq_model,
+            )
         raise ProviderError(f"Unsupported LLM provider: {provider_name}")
+        
