@@ -117,7 +117,7 @@ uvicorn app.main:app --reload
 
 ### Frontend
 ```bash
-cd frontend
+cd AI-Data-Platform/frontend
 npm install
 npm run dev
 ```

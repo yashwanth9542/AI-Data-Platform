@@ -10,24 +10,30 @@ class ChatHistoryRepository:
         self.storage_path.parent.mkdir(parents=True, exist_ok=True)
         if not self.storage_path.exists():
             self.storage_path.write_text("{}", encoding="utf-8")
+        print(f"[backend] ChatHistoryRepository initialized at {self.storage_path}")
 
     def _load(self) -> dict[str, Any]:
+        print(f"[backend] ChatHistoryRepository loading data from {self.storage_path}")
         return json.loads(self.storage_path.read_text(encoding="utf-8"))
 
     def _save(self, payload: dict[str, Any]) -> None:
+        print(f"[backend] ChatHistoryRepository saving data to {self.storage_path}")
         self.storage_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     def ensure_session(self, session_id: str) -> None:
+        print(f"[backend] Ensuring session exists: {session_id}")
         data = self._load()
         data.setdefault(session_id, {"messages": []})
         self._save(data)
 
     def add_message(self, session_id: str, role: str, content: str, metadata: dict[str, Any] | None = None) -> None:
+        print(f"[backend] Adding message to session {session_id}: role={role}")
         self.ensure_session(session_id)
         data = self._load()
         entry = {"id": str(uuid4()), "role": role, "content": content, "metadata": metadata or {}}
         data[session_id]["messages"].append(entry)
         self._save(data)
+        print("[backend] Message added")
 
     def get_session(self, session_id: str) -> dict[str, Any]:
         data = self._load()

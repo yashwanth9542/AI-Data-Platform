@@ -8,8 +8,10 @@ from app.providers.llm.base import LLMProvider
 class OpenAIProvider(LLMProvider):
     def __init__(self, api_key: str) -> None:
         self.api_key = api_key
+        print("[backend] OpenAIProvider initialized")
 
     def generate(self, prompt: str) -> str:
+        print(f"[backend] OpenAIProvider.generate called with prompt: {prompt}")
         if not self.api_key:
             raise ProviderError("OPENAI_API_KEY is not configured")
 
@@ -18,6 +20,7 @@ class OpenAIProvider(LLMProvider):
             "messages": [{"role": "system", "content": "You are an analytics copilot."}, {"role": "user", "content": prompt}],
             "temperature": 0.2,
         }
+        print(f"[backend] Sending payload to OpenAI: {payload}")
         request = urllib.request.Request(
             "https://api.openai.com/v1/chat/completions",
             data=json.dumps(payload).encode("utf-8"),
@@ -30,8 +33,11 @@ class OpenAIProvider(LLMProvider):
         try:
             with urllib.request.urlopen(request, timeout=20) as response:
                 body = json.loads(response.read().decode("utf-8"))
-                return body["choices"][0]["message"]["content"]
+                result = body["choices"][0]["message"]["content"]
+                print("[backend] OpenAIProvider.generate received response")
+                return result
         except Exception as exc:
+            print(f"[backend] OpenAIProvider.generate failed: {exc}")
             raise ProviderError(f"OpenAI request failed: {exc}") from exc
 
     def stream(self, prompt: str):
