@@ -4,7 +4,8 @@ from typing import Any
 
 from langgraph.graph import END, StateGraph
 from typing_extensions import TypedDict
-
+from app.core.config import settings
+from app.providers.llm.factory import LLMProviderFactory
 
 class AgentState(TypedDict):
     messages: list[dict[str, Any]]
@@ -14,10 +15,10 @@ class AgentState(TypedDict):
 
 
 class LangGraphAgent:
-    def __init__(self) -> None:
-        print("[backend] LangGraphAgent initializing")
+
+    def __init__(self):
+        self.provider_factory = LLMProviderFactory()
         self.workflow = self._build_workflow()
-        print("[backend] LangGraphAgent workflow built")
 
     def _build_workflow(self) -> StateGraph:
         def intent_analyzer(state: AgentState) -> AgentState:
@@ -28,17 +29,33 @@ class LangGraphAgent:
                 "messages": state["messages"],
                 "answer": f"Intent detected: {intent}",
                 "sql": None,
-                "provider": "openai",
+                "provider": settings.default_llm_provider
             }
 
         def sql_builder(state: AgentState) -> AgentState:
             question = state["messages"][-1]["content"] if state["messages"] else ""
             print(f"[backend] Agent sql_builder generating SQL for question: {question}")
-            sql = f"SELECT * FROM analytics_sample WHERE question LIKE '%{question}%';"
+            # sql = f"SELECT * FROM analytics_sample WHERE question LIKE '%{question}%';"
+            
+            provider = self.provider_factory.create(settings.default_llm_provider)
+            print(f"[backend] Using provider: {settings.default_llm_provider}")
+            prompt = f"""Translate the following request into a safe read-only SQL SELECT statement.
+                        Return ONLY the SQL query without markdown, explanations, or code fences.
+
+                        User request:
+                        {question}"""
+            print(f"[backend] Provider prompt: {prompt}")
+            provider_response = (
+                                provider.generate(prompt)
+                                .replace("```sql", "")
+                                .replace("```", "")
+                                .strip()
+                            )
+            
             return {
                 "messages": state["messages"],
                 "answer": state["answer"],
-                "sql": sql,
+                "sql": provider_response,
                 "provider": state["provider"],
             }
 
@@ -56,7 +73,7 @@ class LangGraphAgent:
             "messages": [{"role": "user", "content": question}],
             "answer": "",
             "sql": None,
-            "provider": "openai",
+            "provider": settings.default_llm_provider,
         }
         result = self.workflow.invoke(initial_state)
         print(f"[backend] LangGraphAgent.run result: {result}")

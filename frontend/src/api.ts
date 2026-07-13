@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 console.log('[frontend] API base URL:', API_BASE_URL);
 
 export async function postChat(question: string, sessionId?: string) {
@@ -10,9 +10,11 @@ export async function postChat(question: string, sessionId?: string) {
   });
 
   if (!response.ok) {
-    console.error('[frontend] postChat failed with status:', response.status);
-    throw new Error('Chat request failed');
-  }
+    const error = await response.json();
+    console.error(error);
+
+    throw new Error(error.detail);
+}
 
   const data = await response.json();
   console.log('[frontend] postChat response data:', data);

@@ -4,13 +4,13 @@ import urllib.request
 
 from app.core.exceptions import ProviderError
 from app.providers.llm.base import LLMProvider
-
+import app.core.config as config
 
 class GroqProvider(LLMProvider):
     def __init__(
         self,
         api_key: str,
-        model: str = "llama-3.3-70b-versatile",
+        model: str = config.settings.groq_model,
     ) -> None:
         self.api_key = api_key
         self.model = model
@@ -35,6 +35,9 @@ class GroqProvider(LLMProvider):
                 }
             ],
             "temperature": 0.2,
+            "max_tokens": 80,
+            "top_p": 1,
+            "stream": False,
         }
 
         request = urllib.request.Request(
@@ -56,6 +59,10 @@ class GroqProvider(LLMProvider):
         except urllib.error.HTTPError as e:
             error_body = e.read().decode("utf-8")
             print(f"[backend] Groq HTTP {e.code}: {error_body}")
+            try:
+                print(json.dumps(json.loads(error_body), indent=2))
+            except Exception:
+                print(error_body)
             raise ProviderError(f"Groq request failed: {error_body}") from e
 
         except Exception as e:

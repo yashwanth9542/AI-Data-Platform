@@ -1,3 +1,5 @@
+from venv import logger
+
 from app.api.schemas.chat import ChatRequest, ChatResponse
 from app.agents.langgraph_agent import LangGraphAgent
 from app.core.config import settings
@@ -19,12 +21,8 @@ class ChatService:
         self.history_repository.add_message(session_id, "user", request.question)
         print(f"[backend] User question stored: {request.question}")
 
-        provider = self.provider_factory.create(settings.default_llm_provider)
-        print(f"[backend] Using provider: {settings.default_llm_provider}")
-        prompt = f"Translate the request into a safe analytic query: {request.question}"
-        print(f"[backend] Provider prompt: {prompt}")
-        provider_response = provider.generate(prompt)
-        print(f"[backend] Provider response received")
+
+        # provider_response = "Provider test successful"
 
         result = self.agent.run(request.question)
         print(f"[backend] Agent run result: {result}")
@@ -38,7 +36,9 @@ class ChatService:
             print("[backend] Blocked unsafe SQL query")
             return ChatResponse(session_id=session_id, answer=response_text, sql=None, provider=settings.default_llm_provider, status="blocked")
 
-        response_text = f"{result.get('answer', '')} | {provider_response}"
+        response_text = (
+                sql if sql else result.get("answer", "")
+            )
         self.history_repository.add_message(session_id, "assistant", response_text, {"sql": sql})
         print("[backend] Assistant answer stored and response ready")
         return ChatResponse(
