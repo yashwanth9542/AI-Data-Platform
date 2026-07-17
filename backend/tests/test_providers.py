@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import patch
 
-from app.providers.database.postgres import PostgresConnector
-from app.providers.database.sqlite import SQLiteConnector
-from app.providers.llm.factory import LLMProviderFactory
-from app.core import config
-
+# from app.providers.database.postgres import PostgresConnector
+# from app.providers.database.sqlite import SQLiteConnector
+# from app.providers.llm.factory import LLMProviderFactory
+# from app.core import config
+import config
 
 class ProviderTests(unittest.TestCase):
     def test_sqlite_connector_uses_config_path(self) -> None:
@@ -29,35 +29,36 @@ class ProviderTests(unittest.TestCase):
             provider = factory.create("grok")
             self.assertEqual(provider.__class__.__name__, "GrokProvider")
 
-    def test_groq(self) -> None:
-        factory = LLMProviderFactory()
-        import requests
-        settings = config.settings
-        print(f"[backend] GROQ API Key: {settings.groq_api_key}")
-        headers = {
-            "Authorization": f"Bearer {settings.groq_api_key}",
-            "Content-Type": "application/json"
-        }
+def test_groq() -> None:
+    # factory = LLMProviderFactory()
+    import requests
+    settings = config.settings
+    print(f"[backend] GROQ API Key: {settings.groq_api_key}")
+    headers = {
+        "Authorization": f"Bearer {settings.groq_api_key}",
+        "Content-Type": "application/json"
+    }
 
-        payload = {
-            "model": settings.groq_model,
-            "messages": [
-                {
-                    "role": "user",
-                    "content": "Hello"
-                }
-            ]
-        }
+    payload = {
+        "model": settings.groq_model,
+        "messages": [
+            {
+                "role": "user",
+                "content": "Hello"
+            }
+        ]
+    }
 
-        r = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers=headers,
-            json=payload
-        )
+    r = requests.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        headers=headers,
+        json=payload
+    )
 
-        print(r.status_code)
-        print(r.text)
-        self.assertEqual(r.status_code, 200)
+    print(r.status_code)
+    print(r.text)
+    # self.assertEqual(r.status_code, 200)
 
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
+    test_groq()

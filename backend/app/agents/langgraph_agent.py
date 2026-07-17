@@ -40,10 +40,9 @@ class LangGraphAgent:
             provider = self.provider_factory.create(settings.default_llm_provider)
             print(f"[backend] Using provider: {settings.default_llm_provider}")
             prompt = f"""Translate the following request into a safe read-only SQL SELECT statement.
-                        Return ONLY the SQL query without markdown, explanations, or code fences.
-
                         User request:
-                        {question}"""
+                        {question}
+                        output the SQL query only, no explanations or markdown formatting."""
             print(f"[backend] Provider prompt: {prompt}")
             provider_response = (
                                 provider.generate(prompt)

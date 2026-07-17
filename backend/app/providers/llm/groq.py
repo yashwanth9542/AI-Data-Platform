@@ -14,7 +14,7 @@ class GroqProvider(LLMProvider):
     ) -> None:
         self.api_key = api_key
         self.model = model
-        print(f"[backend] GroqProvider initialized (model={self.model})")
+        print(f"[backend] GroqProvider initialized (model={self.model}), api_key={api_key}")
 
     def generate(self, prompt: str) -> str:
         print(f"[backend] GroqProvider.generate called")
@@ -40,35 +40,38 @@ class GroqProvider(LLMProvider):
             "stream": False,
         }
 
+        import json
+        import urllib.request
+        import urllib.error
+
         request = urllib.request.Request(
             url="https://api.groq.com/openai/v1/chat/completions",
             data=json.dumps(payload).encode("utf-8"),
             headers={
                 "Authorization": f"Bearer {self.api_key}",
                 "Content-Type": "application/json",
+                "Accept": "application/json",
+                "User-Agent": "python-requests/2.31.0",  # anything non-default works
             },
             method="POST",
         )
 
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
-                body = json.loads(response.read().decode("utf-8"))
+                body = response.read().decode("utf-8")
+        except urllib.error.HTTPError as exc:
+            error_body = exc.read().decode("utf-8")
+            print(f"[backend] Groq API error {exc.code}: {error_body}")
+            raise
 
-            return body["choices"][0]["message"]["content"]
-
-        except urllib.error.HTTPError as e:
-            error_body = e.read().decode("utf-8")
-            print(f"[backend] Groq HTTP {e.code}: {error_body}")
-            try:
-                print(json.dumps(json.loads(error_body), indent=2))
-            except Exception:
-                print(error_body)
-            raise ProviderError(f"Groq request failed: {error_body}") from e
-
-        except Exception as e:
-            print(f"[backend] Groq request failed: {e}")
-            raise ProviderError(str(e)) from e
-
+        data = json.loads(body)
+        print(f"[backend] Groq API response: {data}")
+        try:
+            return data["choices"][0]["message"]["content"]
+        except (KeyError, IndexError) as exc:
+            print(f"[backend] Unexpected Groq response shape: {data}")
+            raise ProviderError(f"Unexpected Groq API response shape: {exc}") from data
+        
     def stream(self, prompt: str):
         # V1 placeholder
         return iter([self.generate(prompt)])
