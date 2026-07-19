@@ -34,10 +34,11 @@ class GroqProvider(LLMProvider):
                     "content": prompt
                 }
             ],
-            "temperature": 0.2,
+            "temperature": 0,
             "max_tokens": 80,
             "top_p": 1,
             "stream": False,
+            "reasoning_effort": "low"
         }
 
         import json

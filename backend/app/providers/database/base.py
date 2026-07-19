@@ -1,7 +1,25 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
+from typing import Optional
+
+from app.domain.connection_profile import ConnectionProfile
 
 
 class DatabaseConnector(ABC):
+    """Common interface every SQL connector must implement.
+
+    Extended for this refactor to accept an optional ConnectionProfile in
+    the constructor, so connectors can be built from runtime connection
+    parameters (host/port/credentials/ssl) supplied via the Database
+    Connections view instead of only environment-derived config. This is
+    additive: it doesn't change any of the abstract method contracts.
+    """
+
+    def __init__(self, profile: Optional[ConnectionProfile] = None) -> None:
+        self.profile = profile
+        self.connected = False
+
     @abstractmethod
     def connect(self) -> None:
         raise NotImplementedError

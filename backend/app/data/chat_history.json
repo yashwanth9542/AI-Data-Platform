@@ -1,0 +1,299 @@
+{
+  "session-1": {
+    "messages": [
+      {
+        "id": "d7612757-d080-46cf-88de-9470c8acda5e",
+        "role": "user",
+        "content": "1 as name",
+        "metadata": {}
+      },
+      {
+        "id": "239c3b8c-87ad-452c-b3c7-95cb4ae4f6b8",
+        "role": "user",
+        "content": "1 as name",
+        "metadata": {}
+      },
+      {
+        "id": "d774187e-513a-44fc-a78a-e8f080931dd1",
+        "role": "assistant",
+        "content": "Could not complete the request: Unknown connection_id: none; LLM generation failed: HTTP Error 400: Bad Request; No SQL was generated to validate",
+        "metadata": {
+          "sql": null,
+          "status": "error",
+          "errors": [
+            "Unknown connection_id: none",
+            "LLM generation failed: HTTP Error 400: Bad Request",
+            "No SQL was generated to validate"
+          ]
+        }
+      },
+      {
+        "id": "877e0fd5-b07c-4c30-a231-7313a828aa54",
+        "role": "user",
+        "content": "1 as name",
+        "metadata": {}
+      },
+      {
+        "id": "09a45fb8-b4e0-4ec4-9f2c-7a043e474738",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT 1 AS name",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none",
+            "Query execution failed: Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "bdaa4769-5ad6-4d65-8a77-7e408af530ba",
+        "role": "user",
+        "content": "hello",
+        "metadata": {}
+      },
+      {
+        "id": "c89bfb31-08f4-454c-9ee4-b16ffbbd6e62",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT 1;",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none",
+            "Query execution failed: Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "d4efa5b4-64b4-4e51-b5ac-a7bc219a8a1f",
+        "role": "user",
+        "content": "hello",
+        "metadata": {}
+      },
+      {
+        "id": "8625e72b-4fc2-47ed-81a8-e608745b8b60",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "3a93d4e0-a2f6-499c-aa55-79a7da7539f8",
+        "role": "user",
+        "content": "hello",
+        "metadata": {}
+      },
+      {
+        "id": "bf7647e3-dd7d-40cb-b59c-ae56d1611226",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "1b0ddc76-06a1-409d-8532-d84d28812194",
+        "role": "user",
+        "content": "hello",
+        "metadata": {}
+      },
+      {
+        "id": "4a1582f4-a123-4b3d-9ca9-7a4544affbde",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "b54d696b-11fd-4309-86b1-048b8634b658",
+        "role": "user",
+        "content": "hi",
+        "metadata": {}
+      },
+      {
+        "id": "60999058-ba18-4811-b44b-3ba928d5213e",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "5db5e593-a3ce-4d44-9ae9-e8641b959862",
+        "role": "user",
+        "content": "dfgdfg",
+        "metadata": {}
+      },
+      {
+        "id": "0aa92557-3524-442a-bb4c-8acefcb710fb",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "11d7c7b6-a089-4ebe-85bc-b91d28e9c759",
+        "role": "user",
+        "content": "adada",
+        "metadata": {}
+      },
+      {
+        "id": "c51b0d32-3778-419e-adf7-8824dacababf",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none"
+          ]
+        }
+      },
+      {
+        "id": "4653ed64-d667-45b7-800f-ec91faa1f033",
+        "role": "user",
+        "content": "adada",
+        "metadata": {}
+      },
+      {
+        "id": "5809c326-5180-4d69-9165-6ecb679f172d",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none",
+            "Query execution failed: ConnectionProfile.__init__() got an unexpected keyword argument 'connection_string'"
+          ]
+        }
+      },
+      {
+        "id": "629f5f5c-e50f-44f8-bc8c-5c936af9cc7e",
+        "role": "user",
+        "content": "test",
+        "metadata": {}
+      },
+      {
+        "id": "eb2896cc-2bf3-4f85-8b45-2229c9b38f8d",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none",
+            "Query execution failed: 'ConnectionProfile' object has no attribute 'lower'"
+          ]
+        }
+      },
+      {
+        "id": "bce8314f-31b0-4d4f-b40e-bfe5a47a2610",
+        "role": "user",
+        "content": "gg",
+        "metadata": {}
+      },
+      {
+        "id": "32d3d6c7-c772-4a64-aa2c-49b5f48dc0c8",
+        "role": "assistant",
+        "content": "Generated a valid, read-only SQL query.",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": [
+            "Unknown connection_id: none",
+            "Query execution failed: Unsupported database type: ConnectionProfile(id='none', database_type='sqlite', host=None, port=None, username=None, password=None, database=None, ssl=False, connection_string=':memory:', extra={})"
+          ]
+        }
+      },
+      {
+        "id": "8c21b1f1-c41f-4ecb-8d31-ba1b592ac2e5",
+        "role": "user",
+        "content": "ffg",
+        "metadata": {}
+      },
+      {
+        "id": "f4bb4ffa-075a-4337-b0cc-096367970cf1",
+        "role": "assistant",
+        "content": "Ran the generated SQL and found 3 row(s).",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": []
+        }
+      },
+      {
+        "id": "46650ff5-769c-4ad1-881e-2d675fd3fa18",
+        "role": "user",
+        "content": "test",
+        "metadata": {}
+      },
+      {
+        "id": "3031c04b-eba2-40cd-bcbb-738540772dcd",
+        "role": "assistant",
+        "content": "Ran the generated SQL and found 3 row(s).",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": []
+        }
+      },
+      {
+        "id": "13179b7a-2624-4739-9109-90defeca9e0c",
+        "role": "user",
+        "content": "dsfsf",
+        "metadata": {}
+      },
+      {
+        "id": "57fbf852-bf20-4e30-bf1f-5afdc94022be",
+        "role": "assistant",
+        "content": "Ran the generated SQL and found 3 row(s).results=[{'name': 'customers'}, {'name': 'products'}, {'name': 'orders'}]",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": []
+        }
+      },
+      {
+        "id": "31d5a2ee-9a60-4d1a-8b92-3ebf50a62fee",
+        "role": "user",
+        "content": "sfds",
+        "metadata": {}
+      },
+      {
+        "id": "6ad24e44-14b5-4d22-b12d-976cc81248f5",
+        "role": "assistant",
+        "content": "Ran the generated SQL and found 3 row(s).results=[{'name': 'customers'}, {'name': 'products'}, {'name': 'orders'}]",
+        "metadata": {
+          "sql": "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';",
+          "status": "ok",
+          "errors": []
+        }
+      }
+    ]
+  }
+}
